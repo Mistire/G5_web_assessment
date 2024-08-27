@@ -1,19 +1,18 @@
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
-    <main>
-      <Navbar/>
-      <div>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <main className="flex-grow">
         {children}
-      </div>
-    </main>
+      </main>
+      <Footer />
+    </div>
   );
 }
