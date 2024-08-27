@@ -1,3 +1,4 @@
+import Navbar from "@/components/Navbar";
 
 
 export default async function RootLayout({
@@ -9,6 +10,7 @@ export default async function RootLayout({
 
   return (
     <main>
+      <Navbar/>
       <div>
         {children}
       </div>
