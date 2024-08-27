@@ -1,11 +1,12 @@
-'use client'
+'use client';
+
 import Image from 'next/image';
 import { format } from 'date-fns';
 import DOMPurify from 'dompurify';
+import Link from 'next/link';
 
 // Import the placeholder image
 import placeholderImage from '@/public/images/placeHolderBlog.jpg';
-import Link from 'next/link';
 
 interface Blog {
   _id: string;
@@ -30,8 +31,8 @@ const BlogCard: React.FC<{ blog: Blog }> = ({ blog }) => {
   const formattedDate = format(new Date(), 'MMM d, yyyy'); // Adjust the date format as needed
 
   return (
-    <Link href={''}>
-      <div className='border-t pt-7'>
+    <Link href={`/blogs/${blog._id}`}>
+      <div className='border-t py-7'>
         <div className="flex flex-col sm:flex-row bg-white rounded-lg overflow-hidden">
           {/* Left Section */}
           <div className="flex-1 p-4 space-y-4">
@@ -46,7 +47,10 @@ const BlogCard: React.FC<{ blog: Blog }> = ({ blog }) => {
                   className="rounded-full"
                 />
                 <div>
-                  <p className="font-semibold">{authorName} <span className="text-gray-200">&#183;</span> <span className='text-xs text-gray-400 font-light'>{formattedDate}</span></p>
+                  <p className="font-semibold">
+                    {authorName} <span className="text-gray-200">&#183;</span>{' '}
+                    <span className='text-xs text-gray-400 font-light'>{formattedDate}</span>
+                  </p>
                   <p className="text-xs text-gray-500 mt-1 font-[Montserrat]">{authorRole}</p>
                 </div>
               </div>
@@ -55,7 +59,10 @@ const BlogCard: React.FC<{ blog: Blog }> = ({ blog }) => {
             {/* Blog Title and Description */}
             <div>
               <h2 className="text-2xl font-extrabold">{blog.title}</h2>
-              <p className="text-sm font-light text-gray-700 mt-2" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.description) }}></p>
+              <p
+                className="text-sm font-light text-gray-700 mt-2"
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.description) }}
+              ></p>
             </div>
 
             {/* Tags */}

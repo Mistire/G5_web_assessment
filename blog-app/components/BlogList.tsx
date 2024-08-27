@@ -7,9 +7,11 @@ const BlogList = () => {
   const dispatch = useAppDispatch();
   const blogs = useAppSelector((state) => state.blog.blogs);
   const status = useAppSelector((state) => state.blog.status);
+  const error = useAppSelector((state) => state.blog.error); // Get error from state
 
   const [currentPage, setCurrentPage] = useState(1);
   const blogsPerPage = 5;
+  const maxPageButtons = 5; // Number of page buttons to show
 
   useEffect(() => {
     if (status === 'idle') {
@@ -22,7 +24,7 @@ const BlogList = () => {
   }
 
   if (status === 'failed') {
-    return <p>Error loading blogs.</p>;
+    return <p>Error loading blogs: {error}</p>; // Display error message
   }
 
   // Pagination Logic
@@ -32,25 +34,18 @@ const BlogList = () => {
   const totalPages = Math.ceil(blogs.length / blogsPerPage);
 
   // Calculate the range of page numbers to display
-  const pageNumbersToShow = 5; // Number of page buttons to show at a time
-  const startPage = Math.max(1, currentPage - Math.floor(pageNumbersToShow / 2));
-  const endPage = Math.min(totalPages, startPage + pageNumbersToShow - 1);
-  const pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  const startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+  const endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   return (
-    <div>
+    <div className="p-4">
+      {/* Blog Cards */}
       <div className="space-y-4">
         {currentBlogs.map((blog) => (
           <BlogCard key={blog._id} blog={blog} />
@@ -58,31 +53,64 @@ const BlogList = () => {
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex justify-center pt-20 space-x-2">
+      <div className="flex justify-center mt-4 space-x-2">
         <button
-          onClick={handlePrevious}
+          onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1 rounded bg-white text-blue-500 disabled:opacity-50"
+          className={`px-4 py-2 border rounded ${
+            currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-blue-500'
+          }`}
         >
           Previous
         </button>
 
-        {pages.map((page) => (
+        {/* Page Number Buttons */}
+        {startPage > 1 && (
+          <>
+            <button
+              onClick={() => handlePageChange(1)}
+              className={`px-4 py-2 ${
+                currentPage === 1 ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+              }`}
+            >
+              1
+            </button>
+            {startPage > 2 && <span className="px-4 py-2">...</span>}
+          </>
+        )}
+
+        {Array.from({ length: endPage - startPage + 1 }, (_, index) => (
           <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            className={`mx-1 px-3 py-1 border rounded ${
-              currentPage === page ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+            key={startPage + index}
+            onClick={() => handlePageChange(startPage + index)}
+            className={`px-4 py-2 border rounded ${
+              currentPage === startPage + index ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
             }`}
           >
-            {page}
+            {startPage + index}
           </button>
         ))}
 
+        {endPage < totalPages && (
+          <>
+            {endPage < totalPages - 1 && <span className="px-4 py-2">...</span>}
+            <button
+              onClick={() => handlePageChange(totalPages)}
+              className={`px-4 py-2 border rounded ${
+                currentPage === totalPages ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'
+              }`}
+            >
+              {totalPages}
+            </button>
+          </>
+        )}
+
         <button
-          onClick={handleNext}
+          onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="px-3 py-1 rounded bg-white text-blue-500 disabled:opacity-50"
+          className={`px-4 py-2 ${
+            currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-blue-500'
+          }`}
         >
           Next
         </button>

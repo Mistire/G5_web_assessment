@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import Link from "next/link";
-import A2SVLogo from "@/public/icons/A2SVLogo"; // Adjust the path as necessary
-import { usePathname } from "next/navigation";
+import Link from 'next/link';
+import A2SVLogo from '@/public/icons/A2SVLogo'; // Adjust the path as necessary
+import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
   const pathname = usePathname(); // Hook to get the current route path
@@ -21,18 +21,18 @@ const Navbar = () => {
           {/* Center: Navigation Links */}
           <div className="hidden md:flex flex-grow justify-center space-x-6">
             {[
-              { href: "/", label: "Home" },
-              { href: "/teams", label: "Teams" },
-              { href: "/success-stories", label: "Success Stories" },
-              { href: "/about-us", label: "About Us" },
-              { href: "/blogs", label: "Blogs" },
-              { href: "/get-involved", label: "Get Involved" },
+              { href: '/', label: 'Home' },
+              { href: '/teams', label: 'Teams' },
+              { href: '/success-stories', label: 'Success Stories' },
+              { href: '/about-us', label: 'About Us' },
+              { href: '/blogs', label: 'Blogs' },
+              { href: '/get-involved', label: 'Get Involved' },
             ].map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className={`text-gray-800 border-b-4 border-transparent hover:border-blue-600 rounded-sm ${
-                  pathname === href ? "border-blue-600" : ""
+                className={`text-gray-800 border-b-4 ${
+                  pathname === href ? 'border-blue-600' : 'border-transparent'
                 }`}
               >
                 {label}
@@ -44,8 +44,8 @@ const Navbar = () => {
           <div className="flex items-center space-x-6">
             <Link
               href="/login"
-              className={`text-gray-800 border-b-4 border-transparent hover:border-blue-600 rounded-sm ${
-                pathname === "/login" ? "border-blue-600" : ""
+              className={`text-gray-800 border-b-4 ${
+                pathname === '/login' ? 'border-blue-600' : 'border-transparent'
               }`}
             >
               Login
