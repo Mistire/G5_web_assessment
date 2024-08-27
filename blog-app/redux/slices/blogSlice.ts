@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 interface Blog {
   _id: string;
@@ -27,18 +27,26 @@ const initialState: BlogState = {
   error: null,
 };
 
-export const fetchBlogs = createAsyncThunk('blogs/fetchBlogs', async (_, { rejectWithValue }) => {
-  try {
-    const response = await fetch('https://a2sv-backend.onrender.com/api/blogs');
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
+// Define a type for the error
+interface FetchBlogsError {
+  message: string;
+}
+
+export const fetchBlogs = createAsyncThunk<Blog[], void, { rejectValue: FetchBlogsError }>(
+  'blogs/fetchBlogs',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch('https://a2sv-backend.onrender.com/api/blogs');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue({ message: error instanceof Error ? error.message : 'An unknown error occurred' });
     }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return rejectWithValue(error.message);
   }
-});
+);
 
 const blogSlice = createSlice({
   name: 'blog',
@@ -50,13 +58,13 @@ const blogSlice = createSlice({
         state.status = 'loading';
         state.error = null; // Reset error
       })
-      .addCase(fetchBlogs.fulfilled, (state, action) => {
+      .addCase(fetchBlogs.fulfilled, (state, action: PayloadAction<Blog[]>) => {
         state.status = 'succeeded';
         state.blogs = action.payload;
       })
       .addCase(fetchBlogs.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.payload as string; // Set error
+        state.error = action.payload?.message || 'An unknown error occurred'; // Handle the error payload
       });
   },
 });
