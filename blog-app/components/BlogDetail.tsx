@@ -1,13 +1,13 @@
 // components/BlogDetail.tsx
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { fetchBlogDetail } from '@/redux/slices/blogDetailSlice';
-import { useParams } from 'next/navigation';
-import Image from 'next/image';
-import DOMPurify from 'dompurify';
-import placeHolderBlog from '../public/images/placeHolderBlog.jpg'; // Import placeholder image
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { fetchBlogDetail } from "@/redux/slices/blogDetailSlice";
+import { useParams } from "next/navigation";
+import Image from "next/image";
+import DOMPurify from "dompurify";
+import placeHolderBlog from "../public/images/placeHolderBlog.jpg"; // Import placeholder image
 
 const BlogDetail = () => {
   const dispatch = useAppDispatch();
@@ -17,16 +17,16 @@ const BlogDetail = () => {
   const status = useAppSelector((state) => state.blogDetail.status);
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === "idle") {
       dispatch(fetchBlogDetail(blogId));
     }
   }, [status, dispatch, blogId]);
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return <p>Loading...</p>;
   }
 
-  if (status === 'failed') {
+  if (status === "failed") {
     return <p>Error loading blog details.</p>;
   }
 
@@ -34,10 +34,10 @@ const BlogDetail = () => {
     return <p>No blog found.</p>;
   }
 
-  const defaultRole = 'SOFTWARE ENGINEER';
+  const defaultRole = "SOFTWARE ENGINEER";
   const authorRole = blog.author?.role || defaultRole;
-  const authorEmail = blog.author?.email || 'Email not available';
-  const blogTags = blog.tags.join(' | '); // Joining tags with a pipe separator
+  const authorEmail = blog.author?.email || "Email not available";
+  const blogTags = blog.tags.join(" | "); // Joining tags with a pipe separator
 
   return (
     <div className="container mx-auto py-40">
@@ -46,7 +46,7 @@ const BlogDetail = () => {
         <h1 className="text-4xl font-bold">{blog.title}</h1>
         <p className="text-sm text-gray-500 mt-2">{blogTags} | 6 min read</p>
       </div>
-      
+
       {/* Blog Image */}
       <div className="flex justify-center mb-6">
         <Image
@@ -62,13 +62,15 @@ const BlogDetail = () => {
       <div className="flex justify-center items-center mb-4">
         <Image
           src={blog.author?.image || placeHolderBlog} // Use placeholder image if author image is not available
-          alt={blog.author?.name || 'Author'}
+          alt={blog.author?.name || "Author"}
           width={50}
           height={50}
           className="rounded-full"
         />
         <div className="ml-4 text-center">
-          <p className="font-semibold">{blog.author?.name || 'Unknown Author'}</p>
+          <p className="font-semibold">
+            {blog.author?.name || "Unknown Author"}
+          </p>
           <p className="text-sm text-gray-500">
             {authorRole} &#183; {authorEmail}
           </p>
