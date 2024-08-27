@@ -1,4 +1,5 @@
 'use client'
+import BlogList from "@/components/BlogList";
 import { usePathname } from "next/navigation";
 
 const BlogsList: React.FC = () => {
@@ -31,9 +32,8 @@ const BlogsList: React.FC = () => {
       </div>
 
       {/* Blog List or Content */}
-      <div>
-        {/* Placeholder for blog content */}
-        {/* Add your blog content or list here */}
+      <div className="p-20">
+        <BlogList/>
       </div>
     </div>
   );
