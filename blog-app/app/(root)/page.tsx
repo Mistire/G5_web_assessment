@@ -1,5 +1,5 @@
 import React from 'react'
-import BlogsList from './blogs/page'
+
 
 const Home = () => {
   return (

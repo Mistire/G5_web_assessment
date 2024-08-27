@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link'; // Import Link from Next.js
 import HelpingPartner from '@/public/icons/helping-partner.png'; // Adjust the path if necessary
@@ -54,7 +55,7 @@ const Footer = () => {
         </div>
 
         {/* Footer Bottom Section */}
-        <div className="border-t border-gray-300 mt-6 pt-4 flex justify-between items-center text-sm">
+        <div className="border-t-2 border-gray-300 mt-6 pt-4 flex justify-between items-center text-sm">
           <p className="text-gray-500">2020 Africa to Silicon Valley, Inc All rights reserved</p>
           <div className="flex space-x-4">
             <Link href="https://twitter.com" passHref>
