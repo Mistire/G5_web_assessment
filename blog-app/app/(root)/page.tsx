@@ -1,11 +1,12 @@
-import Image from "next/image";
+import React from 'react'
+import BlogsList from './blogs/page'
 
-export default function Home() {
+const Home = () => {
   return (
     <div>
-      <h1>Blogs</h1>
-      <div>serach bar</div>
-      <button></button>
+      Welcome
     </div>
-  );
+  )
 }
+
+export default Home
