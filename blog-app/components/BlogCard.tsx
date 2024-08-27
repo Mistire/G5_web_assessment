@@ -6,7 +6,7 @@ import DOMPurify from 'dompurify';
 import Link from 'next/link';
 
 // Import the placeholder image
-import placeholderImage from '@/public/images/placeHolderBlog.jpg';
+import placeholderImage from '@/public/Images/placeHolderBlog.jpg';
 
 interface Blog {
   _id: string;

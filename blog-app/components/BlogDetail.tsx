@@ -7,7 +7,7 @@ import { fetchBlogDetail } from "@/redux/slices/blogDetailSlice";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import DOMPurify from "dompurify";
-import placeHolderBlog from "../public/images/placeHolderBlog.jpg"; // Import placeholder image
+import placeHolderBlog from "../public/Images/placeHolderBlog.jpg"; // Import placeholder image
 
 const BlogDetail = () => {
   const dispatch = useAppDispatch();
